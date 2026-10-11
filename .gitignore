@@ -1,0 +1,45 @@
+# Credentials and local environments
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+secrets.toml
+.streamlit/secrets.toml
+.venv/
+venv/
+.conda/
+# OS, editors and generated files
+__MACOSX/
+.DS_Store
+._*
+.obsidian/
+.claude/
+.codex/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+*.egg-info/
+build/
+dist/
+*.log
+*.pid
+.coverage
+htmlcov/
+# Runtime data, downloaded models and research intermediates
+var/
+output/
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+*.npz
+*.npy
+*.sqlite*
+*.db
+guardian_news*.csv
+graph_dataset*.json
+sina_major_news*.csv
+test_predictions*.csv

@@ -1,0 +1,137 @@
+version: v3
+name: enterprise_news_four_risk_compact_polarity_taxonomy
+
+defaults:
+  max_input_tokens: 12000
+  max_retries: 2
+  model: kimi-k2.5
+  models:
+    - provider: aliyun
+      model: kimi-k2.5
+      env_key: ALIYUN_API_KEY
+      base_url: https://dashscope.aliyuncs.com/compatible-mode/v1
+    - provider: aliyun
+      model: MiniMax-M2.5
+      env_key: ALIYUN_API_KEY
+      base_url: https://dashscope.aliyuncs.com/compatible-mode/v1
+
+event_taxonomy:
+  credit_risk:
+    negative_events:
+      债务违约:
+        arguments: [公司名称, 债务类型, 发生时间, 违约金额, 债权人]
+      债券违约/展期失败:
+        arguments: [公司名称, 债券名称, 发生时间, 涉及金额, 处置进展]
+      贷款逾期:
+        arguments: [公司名称, 贷款机构, 发生时间, 逾期金额, 贷款类型]
+      流动性危机:
+        arguments: [公司名称, 发生时间, 主要表现, 涉及金额, 原因]
+      主体信用评级下调:
+        arguments: [公司名称, 评级机构, 发生时间, 调整前评级, 调整后评级]
+      破产重整/破产清算:
+        arguments: [公司名称, 程序类型, 发生时间, 受理法院, 进展]
+      担保代偿:
+        arguments: [公司名称, 发生时间, 被担保方, 代偿金额, 债权人]
+      重大诉讼导致偿债能力恶化:
+        arguments: [公司名称, 发生时间, 涉案金额, 诉讼结果/进展, 偿债影响]
+    positive_events:
+      债务按期兑付:
+        arguments: [公司名称, 发生时间, 债务类型, 兑付金额, 说明]
+      债券展期成功:
+        arguments: [公司名称, 债券名称, 发生时间, 涉及金额, 新安排]
+      逾期贷款清偿/恢复正常:
+        arguments: [公司名称, 发生时间, 贷款机构, 清偿金额, 恢复状态]
+      流动性改善:
+        arguments: [公司名称, 发生时间, 改善表现, 涉及金额, 原因]
+      成功完成债务重组:
+        arguments: [公司名称, 发生时间, 涉及债务, 涉及金额, 重组结果]
+
+  fraud_risk:
+    negative_events:
+      财务造假:
+        arguments: [公司名称, 发生时间, 造假期间, 涉及科目, 涉及金额]
+      虚增收入/利润:
+        arguments: [公司名称, 发生时间, 涉及期间, 虚增项目, 涉及金额]
+      虚假披露/重大信息隐瞒:
+        arguments: [公司名称, 发生时间, 涉及事项, 监管措施, 影响]
+      资金占用/挪用资金:
+        arguments: [公司名称, 占用/挪用方, 发生时间, 涉及金额, 资金去向]
+      商业贿赂:
+        arguments: [公司名称, 涉事人员/部门, 发生时间, 涉及对象, 处理进展]
+      合同诈骗:
+        arguments: [公司名称, 发生时间, 交易对手, 涉及合同, 涉及金额]
+      骗贷/骗补:
+        arguments: [公司名称, 发生时间, 资金来源, 涉及金额, 处理进展]
+      关联交易输送利益:
+        arguments: [公司名称, 关联方, 发生时间, 涉及交易, 涉及金额]
+    positive_events:
+      造假事项被主动披露:
+        arguments: [公司名称, 发生时间, 涉及事项, 涉及期间, 处理措施]
+      资金占用清偿完成:
+        arguments: [公司名称, 发生时间, 占用方, 清偿金额, 进展]
+      关键舞弊人员查处/追责:
+        arguments: [公司名称, 发生时间, 涉事人员, 处理方式, 影响]
+      审计出具整改认可结论:
+        arguments: [公司名称, 发生时间, 审计机构, 整改事项, 结论]
+      信息披露更正并补充完整:
+        arguments: [公司名称, 发生时间, 更正事项, 补充内容, 影响]
+
+  operational_risk:
+    negative_events:
+      重大安全事故:
+        arguments: [公司名称, 发生时间, 事故类型, 伤亡人数, 损失金额]
+      生产中断/停工停产:
+        arguments: [公司名称, 发生时间, 影响范围, 原因, 恢复进展]
+      IT系统故障:
+        arguments: [公司名称, 发生时间, 系统名称, 影响范围, 恢复状态]
+      网络攻击/勒索软件事件:
+        arguments: [公司名称, 发生时间, 攻击类型, 影响范围, 处置进展]
+      数据泄露:
+        arguments: [公司名称, 发生时间, 泄露数据类型, 泄露规模, 影响]
+      合规违规/监管处罚:
+        arguments: [公司名称, 发生时间, 监管机构, 违规事项, 处罚结果]
+      供应链中断:
+        arguments: [公司名称, 发生时间, 中断环节, 原因, 影响]
+      产品质量事故:
+        arguments: [公司名称, 发生时间, 产品名称, 事故表现, 影响]
+    positive_events:
+      复工复产:
+        arguments: [公司名称, 发生时间, 恢复范围, 原因, 后续安排]
+      安全整改完成:
+        arguments: [公司名称, 发生时间, 整改事项, 验收情况, 影响]
+      系统恢复并稳定运行:
+        arguments: [公司名称, 发生时间, 系统名称, 恢复范围, 稳定情况]
+      通过监管检查/合规验收:
+        arguments: [公司名称, 发生时间, 监管机构, 检查事项, 结论]
+      供应链恢复正常:
+        arguments: [公司名称, 发生时间, 恢复环节, 改善表现, 影响]
+
+  market_risk:
+    negative_events:
+      股价大幅波动:
+        arguments: [公司名称, 发生时间, 波动方向, 波动幅度, 触发因素]
+      利率大幅波动:
+        arguments: [公司名称, 发生时间, 利率类型, 波动方向, 影响]
+      汇率大幅波动:
+        arguments: [公司名称, 发生时间, 涉及币种, 波动方向, 影响]
+      商品价格大幅波动:
+        arguments: [公司名称, 发生时间, 商品名称, 波动方向, 影响]
+      信用利差走阔:
+        arguments: [公司名称, 发生时间, 涉及债券/融资工具, 利差变动, 影响]
+      市场流动性收缩:
+        arguments: [公司名称, 发生时间, 市场表现, 影响, 原因]
+      投资组合大额浮亏:
+        arguments: [公司名称, 发生时间, 投资标的, 浮亏金额, 原因]
+      行业景气度快速下行:
+        arguments: [公司名称, 发生时间, 所属行业, 下行表现, 影响]
+    positive_events:
+      股价企稳或显著回升:
+        arguments: [公司名称, 发生时间, 回升幅度, 触发因素, 影响]
+      利率波动收敛:
+        arguments: [公司名称, 发生时间, 利率类型, 收敛表现, 影响]
+      汇率趋稳:
+        arguments: [公司名称, 发生时间, 涉及币种, 稳定表现, 影响]
+      信用利差收窄:
+        arguments: [公司名称, 发生时间, 涉及债券/融资工具, 利差变化, 影响]
+      市场流动性改善:
+        arguments: [公司名称, 发生时间, 改善表现, 影响, 原因]

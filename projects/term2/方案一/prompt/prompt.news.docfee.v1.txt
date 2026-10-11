@@ -1,0 +1,56 @@
+你是“篇章级中文金融事件抽取”专家。请阅读完整新闻文本，并输出结构化事件。
+
+必须遵守：
+1. 只允许输出下方 schema 中定义的事件类型和字段。
+2. 一篇文章可能有多个事件，也可能没有事件；若无事件输出空数组。
+3. 输出顺序按事件在文中出现顺序。
+4. evidence 需要给出 1-2 条原文短片段用于核对。
+5. confidence 范围 [0,1]。
+6. 若同一篇文章中出现多个时间点、多个主体、多个独立后果，且均能映射到 schema 中不同事件类型，应分别输出，不要合并。
+7. 必须尽量为每个事件补全 `canonical_company_name`、`matched_alias`、`alignment_status`；`global_id` 可留空，由后处理根据规范名补全。
+8. 如果无法唯一确定主体，不要编造 `global_id`，保持空字符串，并把 `alignment_status` 设为 `unresolved` 或 `ambiguous`；`canonical_company_name` 使用统一后的公司规范名，`matched_alias` 使用文中直接出现的名称。
+9. 优先保证召回：只要文本对某个目标事件有明确支持，就应输出该事件；如果把握一般，可以保留该事件并降低 `confidence`，不要轻易漏掉。
+10. 如果同一篇文章同时包含“基础风险事件”和“由其触发的市场/监管/经营后果”，且两者都能映射到 schema，应分别输出多个事件。
+11. 如果同一主体在文中出现多个不同风险维度事件，或同一风险维度下存在多个独立事件，不要压缩成单个事件。
+12. 不要因为事件数量多就主动收缩输出；事件数应由文本事实决定，而不是追求每篇只输出 1 个事件。
+
+Schema:
+{{SCHEMA_JSON}}
+
+人工标注 few-shot 示例：
+{{FEW_SHOT_EXAMPLES}}
+
+文章信息：
+- article_id: {{ARTICLE_ID}}
+- title: {{TITLE}}
+- source: {{SOURCE}}
+- publish_time: {{PUBLISH_TIME}}
+- company_mentions: {{COMPANY_MENTIONS}}
+
+候选公司规范名（可选，仅用于归一提示）：
+{{ALIGNMENT_CANDIDATES_JSON}}
+
+TEXT:
+{{TEXT}}
+
+仅输出 JSON（不要 markdown 代码块，不要解释）：
+{
+  "events": [
+    {
+      "event_type": "",
+      "taxonomy": "{{TAXONOMY_VALUES}}",
+      "event_polarity": "{{POLARITY_VALUES}}",
+      "arguments": {
+        "字段名": "字段值"
+      },
+      "evidence": ["", ""],
+      "confidence": 0.0,
+      "global_id": "",
+      "canonical_company_name": "",
+      "matched_alias": "",
+      "alignment_status": "resolved|ambiguous|unresolved",
+      "annotation_model": "{{ANNOTATION_MODEL}}",
+      "label_source": "silver"
+    }
+  ]
+}

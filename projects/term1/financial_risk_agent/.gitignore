@@ -1,0 +1,29 @@
+# Python build and test artifacts
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Local environments and secrets
+.venv/
+venv/
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+.streamlit/secrets.toml
+secrets.toml
+
+# Application runtime data
+var/runtime/
+var/audit/
+var/exports/
+
+# Operating-system files
+.DS_Store
